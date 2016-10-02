@@ -153,13 +153,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4HX-ef-yIQ">
+                                <state key="normal" title="Reset Game"/>
+                                <connections>
+                                    <action selector="resetGame:" destination="ogV-KT-dEg" eventType="touchUpInside" id="7bY-aO-kmR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="4HX-ef-yIQ" firstAttribute="trailing" secondItem="EO6-2X-dgV" secondAttribute="trailing" id="9fn-Yd-HuX"/>
                             <constraint firstItem="piS-iC-l1d" firstAttribute="centerX" secondItem="h3p-1U-ioM" secondAttribute="centerX" id="Mpa-BE-PlO"/>
                             <constraint firstItem="piS-iC-l1d" firstAttribute="centerY" secondItem="h3p-1U-ioM" secondAttribute="centerY" id="SFX-pb-Umc"/>
                             <constraint firstItem="EO6-2X-dgV" firstAttribute="trailing" secondItem="h3p-1U-ioM" secondAttribute="trailingMargin" id="gNW-eI-ep6"/>
+                            <constraint firstAttribute="bottom" secondItem="4HX-ef-yIQ" secondAttribute="bottom" constant="20" symbolic="YES" id="vAF-yj-ISZ"/>
                             <constraint firstItem="EO6-2X-dgV" firstAttribute="top" secondItem="2jn-vM-uZf" secondAttribute="bottom" constant="8" symbolic="YES" id="xqf-QD-O5a"/>
                         </constraints>
                         <connections>
@@ -171,6 +179,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="ResetGameLabel" destination="4HX-ef-yIQ" id="sCC-PE-LGl"/>
                         <outlet property="actionToPerformLabel" destination="piS-iC-l1d" id="X5P-hv-FuW"/>
                         <outlet property="doubleTapGestureRecognizer" destination="CDX-G4-Qab" id="js1-Sd-G7u"/>
                         <outlet property="leftSwipeGestureRecognizer" destination="xq0-1H-G9e" id="YLa-S7-WZ8"/>

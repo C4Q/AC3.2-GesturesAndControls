@@ -22,6 +22,8 @@ class SettingsViewController: UIViewController {
     private var currentColor = UIColor.white
     private var rightColor = UIColor.green
     private var wrongColor = UIColor.red
+    
+//    ****
     private var winningScore = 10
     
     override func viewDidLoad() {

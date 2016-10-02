@@ -9,7 +9,7 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-
+    
     var correctColor = UIColor.green
     var wrongColor = UIColor.red
     var scoreResets = true
@@ -33,6 +33,7 @@ class GesturesViewController: UIViewController {
     
     @IBOutlet weak var actionToPerformLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var ResetGameLabel: UIButton!
     
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
@@ -42,12 +43,9 @@ class GesturesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
-        self.currentActionGesture = self.pickRandomActionGesture()
-
+        startGame()
     }
-
+    
     // MARK: - Utility
     // update our label for each gesture
     func updateLabel(for actionGes: ActionGesture) {
@@ -74,7 +72,6 @@ class GesturesViewController: UIViewController {
     @IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
         if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
             switch (tapGesture.numberOfTapsRequired, tapGesture.numberOfTouchesRequired) {
-                
             case (1, 1):
                 print("Heck yea I was tapped")
                 self.isCorrect(self.currentActionGesture == .tap)
@@ -92,7 +89,7 @@ class GesturesViewController: UIViewController {
                 self.isCorrect(false)
             }
         }
-    
+        
         if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
@@ -112,14 +109,21 @@ class GesturesViewController: UIViewController {
         }
     }
     
+    
     func isCorrect(_ correct: Bool) {
         self.currentActionGesture = pickRandomActionGesture()
         
         if correct {
             self.view.backgroundColor = correctColor
             self.currentScore += 1
-            if self.currentScore == winningScore {
-                self.currentScore = 0
+            if self.currentScore >= winningScore {
+                actionToPerformLabel.text = "You win!"
+                for gesture in view.gestureRecognizers! {
+                    gesture.isEnabled = false
+                }
+                
+                
+                ResetGameLabel.setTitle("Play again?", for: .normal)
             }
         }
         else {
@@ -129,4 +133,22 @@ class GesturesViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func resetGame(_ sender: UIButton) {
+        startGame()
+    }
+    
+    func startGame(){
+        self.view.backgroundColor = .white
+        currentScore = 0
+        for gesture in view.gestureRecognizers! {
+            gesture.isEnabled = true
+        }
+        
+        tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
+        self.currentActionGesture = self.pickRandomActionGesture()
+        ResetGameLabel.setTitle("Reset", for: .normal)
+    }
+    
+    
 }
