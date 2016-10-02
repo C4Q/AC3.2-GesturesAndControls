@@ -9,8 +9,12 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
     
+    var correctColorForRight = UIColor.cyan
+    var correctColorForWrong = UIColor.red
+    
+    var resetMode = true
+    var winningScoree: Int = 0
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
     }
@@ -42,7 +46,9 @@ class GesturesViewController: UIViewController {
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
 
+
     }
+    
 
     // MARK: - Utility
     // update our label for each gesture
@@ -130,6 +136,11 @@ class GesturesViewController: UIViewController {
                 self.isCorrect(false)
             }
         }
+        
+        if isWinning(currentScore: currentScore){
+            self.currentScore = 0
+            print(winningScoree)
+        }
     }
     
     func isCorrect(_ correct: Bool) {
@@ -137,16 +148,23 @@ class GesturesViewController: UIViewController {
         
         if correct {
             // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            self.view.backgroundColor = correctColorForRight
 
             self.currentScore += 1
+        }else {
+            self.view.backgroundColor = correctColorForWrong
+            
+            if resetMode{
+                self.currentScore = 0
+            }
         }
-        else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
+    }
+    
+    func isWinning(currentScore: Int) -> Bool{
+        if winningScoree == currentScore{
+            return true
+        }else{
+            return false
         }
     }
 }
