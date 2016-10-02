@@ -9,10 +9,18 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
+    var correctRedColorValue = 0.0
+    var correctGreenColorValue = 1.0
+    var correctBlueColorValue = 0.0
+    var incorrectRedColorValue = 1.0
+    var incorrectGreenColorValue = 0.0
+    var incorrectBlueColorValue = 0.0
+    
+    var difficultySwitchIsOn = true
+    var scoreForWin = 10
     
     enum ActionGesture: Int {
-        case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
+        case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe, upSwipe, downSwipe
     }
     
     var currentActionGesture = ActionGesture.tap {
@@ -32,16 +40,18 @@ class GesturesViewController: UIViewController {
     
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
+    
+    @IBOutlet var downSwipeGestureRecognizer: UISwipeGestureRecognizer!
+    @IBOutlet var upSwipeGestureRecognizer: UISwipeGestureRecognizer!
+    
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var doubleTapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var twoFingerTapGestureRecognizer: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
-
     }
 
     // MARK: - Utility
@@ -54,79 +64,46 @@ class GesturesViewController: UIViewController {
         case .twoFingerTap: updateText = "two finger tap"
         case .leftSwipe: updateText = "swipe left"
         case .rightSwipe: updateText = "swipe right"
+        case .upSwipe: updateText = "swipe up"
+        case .downSwipe: updateText = "swipe down"
         }
-        
         self.actionToPerformLabel.text = updateText
     }
     
     // a way to randomly get a gesture
     func pickRandomActionGesture() -> ActionGesture {
-        let randomInt = Int(arc4random_uniform(5)) // number between 0-4
+        let randomInt = Int(arc4random_uniform(7)) // number between 0-6
         return ActionGesture(rawValue: randomInt) ?? .tap
     }
     
     // MARK: - Actions
-//    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
-//        print("I was tapped")
-//        self.isCorrect(self.currentActionGesture == .tap)
-//    }
-//    
-//    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped left")
-//        self.isCorrect(self.currentActionGesture == .leftSwipe)
-//    }
-//    
-//    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped right")
-//        self.isCorrect(self.currentActionGesture == .rightSwipe)
-//    }
-//    
-//    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did double tap view")
-//        self.isCorrect(self.currentActionGesture == .doubleTap)
-//    }
-//    
-//    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did two finger tap view")
-//        self.isCorrect(self.currentActionGesture == .twoFingerTap)
-//    }
     
     @IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
+        if currentScore >= scoreForWin { return }
+        
         if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
             switch (tapGesture.numberOfTapsRequired, tapGesture.numberOfTouchesRequired) {
-                
             case (1, 1):
-                print("Heck yea I was tapped")
                 self.isCorrect(self.currentActionGesture == .tap)
-                
             case (2, 1):
-                print("double tap!")
                 self.isCorrect(self.currentActionGesture == .doubleTap)
-                
             case (1, 2):
-                print("two finger tap!")
                 self.isCorrect(self.currentActionGesture == .twoFingerTap)
-                
             default:
-                print("tap type was wrong!")
                 self.isCorrect(false)
             }
         }
-    
         if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
-            
             switch swipeGesture.direction {
-                
             case UISwipeGestureRecognizerDirection.left:
-                print("did swipe left")
                 self.isCorrect(self.currentActionGesture == .leftSwipe)
-                
             case UISwipeGestureRecognizerDirection.right:
-                print("did swipe right")
                 self.isCorrect(self.currentActionGesture == .rightSwipe)
-                
+            case UISwipeGestureRecognizerDirection.up:
+                self.isCorrect(self.currentActionGesture == .upSwipe)
+            case UISwipeGestureRecognizerDirection.down:
+                self.isCorrect(self.currentActionGesture == .downSwipe)
             default:
-                print("was not left/right")
                 self.isCorrect(false)
             }
         }
@@ -134,19 +111,18 @@ class GesturesViewController: UIViewController {
     
     func isCorrect(_ correct: Bool) {
         self.currentActionGesture = pickRandomActionGesture()
-        
         if correct {
-            // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
+            self.view.backgroundColor = UIColor(red: CGFloat(self.correctRedColorValue), green: CGFloat(self.correctGreenColorValue), blue: CGFloat(self.correctBlueColorValue), alpha: 1.0)
             self.currentScore += 1
         }
         else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
+            self.view.backgroundColor = UIColor(red: CGFloat(self.incorrectRedColorValue), green: CGFloat(self.incorrectGreenColorValue), blue: CGFloat(self.incorrectBlueColorValue), alpha: 1.0)
+            if difficultySwitchIsOn {
+                self.currentScore = 0
+            }
+        }
+        if self.currentScore >= scoreForWin {
+            self.actionToPerformLabel.text = "WINNER"
         }
     }
 }
