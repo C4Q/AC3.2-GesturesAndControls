@@ -9,7 +9,11 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
+    
+    var minScoreForWin = 10
+    var switchingScore = true
+    var correctColorValue = UIColor.white
+    var wrongColorValue = UIColor.white
     
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
@@ -23,13 +27,12 @@ class GesturesViewController: UIViewController {
     
     var currentScore: Int = 0 {
         willSet {
-            self.scoreLabel.text = "Score: \(newValue)"
+            self.scoreLabel.text = "\(newValue)"
         }
     }
     
     @IBOutlet weak var actionToPerformLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
-    
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
@@ -97,19 +100,19 @@ class GesturesViewController: UIViewController {
                 
             case (1, 1):
                 print("Heck yea I was tapped")
-                self.isCorrect(self.currentActionGesture == .tap)
+                self.isCorrect(self.currentActionGesture == .tap, switchingScore)
                 
             case (2, 1):
                 print("double tap!")
-                self.isCorrect(self.currentActionGesture == .doubleTap)
+                self.isCorrect(self.currentActionGesture == .doubleTap, switchingScore)
                 
             case (1, 2):
                 print("two finger tap!")
-                self.isCorrect(self.currentActionGesture == .twoFingerTap)
+                self.isCorrect(self.currentActionGesture == .twoFingerTap, switchingScore)
                 
             default:
                 print("tap type was wrong!")
-                self.isCorrect(false)
+                self.isCorrect(false, switchingScore)
             }
         }
     
@@ -119,34 +122,36 @@ class GesturesViewController: UIViewController {
                 
             case UISwipeGestureRecognizerDirection.left:
                 print("did swipe left")
-                self.isCorrect(self.currentActionGesture == .leftSwipe)
+                self.isCorrect(self.currentActionGesture == .leftSwipe, switchingScore)
                 
             case UISwipeGestureRecognizerDirection.right:
                 print("did swipe right")
-                self.isCorrect(self.currentActionGesture == .rightSwipe)
+                self.isCorrect(self.currentActionGesture == .rightSwipe, switchingScore)
                 
             default:
                 print("was not left/right")
-                self.isCorrect(false)
+                self.isCorrect(false, switchingScore)
             }
         }
     }
     
-    func isCorrect(_ correct: Bool) {
+    func isCorrect(_ correct: Bool , _ changingScore: Bool) {
         self.currentActionGesture = pickRandomActionGesture()
-        
         if correct {
-            // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
+            self.view.backgroundColor = correctColorValue
             self.currentScore += 1
+            if self.currentScore == self.minScoreForWin {
+                self.currentScore = 0
+                scoreLabel.text = "you win"
+            }
         }
-        else {
-            self.view.backgroundColor = UIColor.red
+        else if !correct && changingScore {
+            self.view.backgroundColor = wrongColorValue
             self.currentScore = 0
+        }
+        else if !correct && !changingScore {
+            self.view.backgroundColor = wrongColorValue
+            self.currentScore += 0
         }
     }
 }
