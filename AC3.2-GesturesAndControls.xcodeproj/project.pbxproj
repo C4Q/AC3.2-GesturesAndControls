@@ -44,6 +44,7 @@
 			children = (
 				1E6AA2D81D9D8F1A0056CFDA /* AC3.2-GesturesAndControls */,
 				1E6AA2D71D9D8F1A0056CFDA /* Products */,
+				1E6AA2DD1D9D8F1A0056CFDA /* Main.storyboard */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,7 +61,6 @@
 			children = (
 				1E6AA2D91D9D8F1A0056CFDA /* AppDelegate.swift */,
 				1E6AA2DB1D9D8F1A0056CFDA /* ViewController.swift */,
-				1E6AA2DD1D9D8F1A0056CFDA /* Main.storyboard */,
 				1E6AA2E01D9D8F1A0056CFDA /* Assets.xcassets */,
 				1E6AA2E21D9D8F1A0056CFDA /* LaunchScreen.storyboard */,
 				1E6AA2E51D9D8F1A0056CFDA /* Info.plist */,
@@ -158,6 +158,7 @@
 				1E6AA2DE1D9D8F1A0056CFDA /* Base */,
 			);
 			name = Main.storyboard;
+			path = "AC3.2-GesturesAndControls";
 			sourceTree = "<group>";
 		};
 		1E6AA2E21D9D8F1A0056CFDA /* LaunchScreen.storyboard */ = {
@@ -307,6 +308,7 @@
 				1E6AA2EA1D9D8F1A0056CFDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

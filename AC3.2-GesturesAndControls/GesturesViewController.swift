@@ -9,7 +9,18 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
+    var correctColorValue = UIColor.green
+    var wrongColorValue = UIColor.red
+    var resetScore = true
+    var gameTime = 15
+    var timer = Timer()
+    var isBeingPlayed = false
+    var winScore = 5
+    var playerScore = 0
+    
+    
+    
+    
     
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
@@ -24,12 +35,16 @@ class GesturesViewController: UIViewController {
     var currentScore: Int = 0 {
         willSet {
             self.scoreLabel.text = "Score: \(newValue)"
+            playerScore = newValue
+            
         }
     }
     
+  
+    
     @IBOutlet weak var actionToPerformLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
-    
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
@@ -38,12 +53,16 @@ class GesturesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
-
+        self.timerLabel.text = "\u{23F0}:" + String(gameTime)
+        //self.actionToPerformLabel.text = "TOUCH TO PLAY"
+       // enableControls(state: false)
+        
+        
     }
-
+    
     // MARK: - Utility
     // update our label for each gesture
     func updateLabel(for actionGes: ActionGesture) {
@@ -66,32 +85,41 @@ class GesturesViewController: UIViewController {
     }
     
     // MARK: - Actions
-//    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
-//        print("I was tapped")
-//        self.isCorrect(self.currentActionGesture == .tap)
-//    }
-//    
-//    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped left")
-//        self.isCorrect(self.currentActionGesture == .leftSwipe)
-//    }
-//    
-//    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped right")
-//        self.isCorrect(self.currentActionGesture == .rightSwipe)
-//    }
-//    
-//    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did double tap view")
-//        self.isCorrect(self.currentActionGesture == .doubleTap)
-//    }
-//    
-//    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did two finger tap view")
-//        self.isCorrect(self.currentActionGesture == .twoFingerTap)
-//    }
-    
     @IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
+        if isBeingPlayed == false{
+            startGame()
+            playGame(sender: sender)
+            isBeingPlayed = true
+        }else{
+            playGame(sender: sender)
+        }
+        
+    }
+    
+    //MARK: - Methods
+    
+    func isCorrect(_ correct: Bool) {
+        self.currentActionGesture = pickRandomActionGesture()
+        
+        if correct {
+            // use the "correctColorValue" to manipulate the red component of a color
+            self.view.backgroundColor = self.correctColorValue
+            // alternatively we can change the hue using this initializer of UIColor
+            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+            
+            self.currentScore += 1
+        }
+        else {
+            //resets score is switch is ON
+            if resetScore{
+                self.currentScore = 0
+            }
+            self.view.backgroundColor = wrongColorValue
+        }
+    }
+    
+    func playGame(sender:Any){
+        
         if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
             switch (tapGesture.numberOfTapsRequired, tapGesture.numberOfTouchesRequired) {
                 
@@ -112,7 +140,7 @@ class GesturesViewController: UIViewController {
                 self.isCorrect(false)
             }
         }
-    
+        
         if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
@@ -130,23 +158,50 @@ class GesturesViewController: UIViewController {
                 self.isCorrect(false)
             }
         }
+        
+        
     }
     
-    func isCorrect(_ correct: Bool) {
-        self.currentActionGesture = pickRandomActionGesture()
+    //game timer that starts after first move is made
+    func gameTimer(){
+        self.timerLabel.text = "\u{23F0}:" + String(gameTime)
         
-        if correct {
-            // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
-            self.currentScore += 1
+        if userWin(){
+            gameOfEnd(display: "YOU WIN!!")
         }
-        else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
+        else if gameTime == 0{
+            gameOfEnd(display: "YOU LOSE!!")
+            gameTime = 10
+        
+        }else{
+            gameTime -= 1
         }
+        
+      
+    }
+    
+    func startGame(){
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gameTimer), userInfo: nil, repeats: true)
+        enableControls(state: true)
+    }
+    
+    func gameOfEnd(display: String){
+        timer.invalidate()
+        enableControls(state: false)
+        tapGestureRecognizer.isEnabled = false
+        actionToPerformLabel.text = display
+    }
+    
+    func userWin()->Bool{
+        return playerScore == winScore
+    }
+    
+    func enableControls(state: Bool){
+        timerLabel.isEnabled = state
+        rightSwipeGestureRecognizer.isEnabled = state
+        leftSwipeGestureRecognizer.isEnabled = state
+       // tapGestureRecognizer.isEnabled = state
+        doubleTapGestureRecognizer.isEnabled = state
+        twoFingerTapGestureRecognizer.isEnabled = state
     }
 }
