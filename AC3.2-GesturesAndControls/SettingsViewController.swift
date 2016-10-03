@@ -9,13 +9,39 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    
+    var intialColor = 0
+    
+    @IBAction func homeSegmented(_ sender: UISegmentedControl) {
+    }
 
     @IBOutlet weak var colorSlider: UISlider!
     
+    
+    @IBAction func colorSliderOne(_ sender: UISlider) {
+    }
+    
+    @IBAction func colorSliderTwo(_ sender: UISlider) {
+        print("\(sender.value)")
+    }
+
+    @IBAction func colorSliderThree(_ sender: UISlider) {
+    }
+    
+    
+    @IBOutlet weak var colorLabel: UILabel!
+
+    
+    @IBAction func homeSwitch(_ sender: UISwitch) {
+    }
+    
+    
+    @IBAction func homeStepper(_ sender: UIStepper) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {

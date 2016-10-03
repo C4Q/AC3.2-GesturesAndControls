@@ -58,16 +58,24 @@
 		1E6AA2D81D9D8F1A0056CFDA /* AC3.2-GesturesAndControls */ = {
 			isa = PBXGroup;
 			children = (
-				1E6AA2D91D9D8F1A0056CFDA /* AppDelegate.swift */,
-				1E6AA2DB1D9D8F1A0056CFDA /* ViewController.swift */,
+				B9EA827D1DA1D97100D34EEE /* supportingFiles */,
 				1E6AA2DD1D9D8F1A0056CFDA /* Main.storyboard */,
-				1E6AA2E01D9D8F1A0056CFDA /* Assets.xcassets */,
-				1E6AA2E21D9D8F1A0056CFDA /* LaunchScreen.storyboard */,
-				1E6AA2E51D9D8F1A0056CFDA /* Info.plist */,
 				1E6AA2EB1D9D93BC0056CFDA /* SettingsViewController.swift */,
 				1E6AA2ED1D9D94070056CFDA /* GesturesViewController.swift */,
 			);
 			path = "AC3.2-GesturesAndControls";
+			sourceTree = "<group>";
+		};
+		B9EA827D1DA1D97100D34EEE /* supportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				1E6AA2DB1D9D8F1A0056CFDA /* ViewController.swift */,
+				1E6AA2D91D9D8F1A0056CFDA /* AppDelegate.swift */,
+				1E6AA2E01D9D8F1A0056CFDA /* Assets.xcassets */,
+				1E6AA2E21D9D8F1A0056CFDA /* LaunchScreen.storyboard */,
+				1E6AA2E51D9D8F1A0056CFDA /* Info.plist */,
+			);
+			name = supportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,6 +315,7 @@
 				1E6AA2EA1D9D8F1A0056CFDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
