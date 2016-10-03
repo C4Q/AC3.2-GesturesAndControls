@@ -9,7 +9,10 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
+    var rightColor: UIColor = UIColor()
+    var wrongColor: UIColor = UIColor()
+    var resetToggle = true
+    var winningNumber = 0
     
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
@@ -38,12 +41,13 @@ class GesturesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        scoreLabel.text = "Score: 0"
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
-
+        
     }
-
+    
     // MARK: - Utility
     // update our label for each gesture
     func updateLabel(for actionGes: ActionGesture) {
@@ -66,30 +70,30 @@ class GesturesViewController: UIViewController {
     }
     
     // MARK: - Actions
-//    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
-//        print("I was tapped")
-//        self.isCorrect(self.currentActionGesture == .tap)
-//    }
-//    
-//    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped left")
-//        self.isCorrect(self.currentActionGesture == .leftSwipe)
-//    }
-//    
-//    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped right")
-//        self.isCorrect(self.currentActionGesture == .rightSwipe)
-//    }
-//    
-//    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did double tap view")
-//        self.isCorrect(self.currentActionGesture == .doubleTap)
-//    }
-//    
-//    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did two finger tap view")
-//        self.isCorrect(self.currentActionGesture == .twoFingerTap)
-//    }
+    //    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
+    //        print("I was tapped")
+    //        self.isCorrect(self.currentActionGesture == .tap)
+    //    }
+    //
+    //    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
+    //        print("Swiped left")
+    //        self.isCorrect(self.currentActionGesture == .leftSwipe)
+    //    }
+    //
+    //    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
+    //        print("Swiped right")
+    //        self.isCorrect(self.currentActionGesture == .rightSwipe)
+    //    }
+    //
+    //    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
+    //        print("Did double tap view")
+    //        self.isCorrect(self.currentActionGesture == .doubleTap)
+    //    }
+    //
+    //    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
+    //        print("Did two finger tap view")
+    //        self.isCorrect(self.currentActionGesture == .twoFingerTap)
+    //    }
     
     @IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
         if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
@@ -112,7 +116,7 @@ class GesturesViewController: UIViewController {
                 self.isCorrect(false)
             }
         }
-    
+        
         if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
@@ -136,17 +140,18 @@ class GesturesViewController: UIViewController {
         self.currentActionGesture = pickRandomActionGesture()
         
         if correct {
-            // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
+            self.view.backgroundColor = rightColor
             self.currentScore += 1
+            if currentScore == winningNumber {
+                actionToPerformLabel.text = "Winner! Save to play again."
+                currentScore = 0
+            }
         }
         else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
+            if resetToggle {
+                self.currentScore = 0
+            }
+            self.view.backgroundColor = wrongColor
         }
     }
 }
