@@ -25,43 +25,60 @@ class SettingsViewController: UIViewController {
 	
 	@IBOutlet weak var resetSwitch: UISwitch!
 	@IBOutlet weak var resetLabel: UILabel!
-
+	
 	@IBOutlet weak var winCountStepper: UIStepper!
 	@IBOutlet weak var winCountLabel: UILabel!
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		// Do any additional setup after loading the view.
 		colorPreviewCorrect.backgroundColor = UIColor.green
 		colorPreviewWrong.backgroundColor = UIColor.red
 	}
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let gvc = segue.destination as? GesturesViewController {
+	
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+	
+	// MARK: - Navigation
+	
+	// In a storyboard-based application, you will often want to do a little preparation before navigation
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if let gvc = segue.destination as? GesturesViewController {
 			// If user doesn't set custom colors, initial values will be used
 			gvc.correctColor = correctColor
 			gvc.wrongColor = wrongColor
 			gvc.reset = resetSwitch.isOn
 			gvc.winCount = winCount
 		}
-    }
+	}
 	
 	// MARK: Color Stuff
-	var correctRedSlider = 0.0
-	var correctGreenSlider = 1.0
-	var correctBlueSlider = 0.0
-	var wrongRedSlider = 1.0
-	var wrongGreenSlider = 0.5
-	var wrongBlueSlider = 0.5
+	var correctRedSlider:CGFloat = 0.0
+	var correctGreenSlider:CGFloat = 1.0
+	var correctBlueSlider:CGFloat = 0.0
+	var wrongRedSlider:CGFloat = 1.0
+	var wrongGreenSlider:CGFloat = 0.0
+	var wrongBlueSlider:CGFloat = 0.0
+	var alpha:CGFloat = 0.0
 	var rightWrongPicked = true
+	
+	@IBAction func colorSegment(_ sender: UISegmentedControl) {
+		if sender.selectedSegmentIndex == 0 {
+			if correctColor.getRed(&correctRedSlider, green: &correctGreenSlider, blue: &correctBlueSlider, alpha: &alpha) {
+				redSlider.value = Float(correctRedSlider)
+				greenSlider.value = Float(correctGreenSlider)
+				blueSlider.value = Float(correctBlueSlider)
+			}
+		} else {
+			if wrongColor.getRed(&wrongRedSlider, green: &wrongGreenSlider, blue: &wrongBlueSlider, alpha: &alpha) {
+				redSlider.value = Float(wrongRedSlider)
+				greenSlider.value = Float(wrongGreenSlider)
+				blueSlider.value = Float(wrongBlueSlider)
+			}
+		}
+	}
 	
 	@IBAction func colorChange(_ sender: UISlider) {
 		colorChoice = UIColor(red: CGFloat(Double(redSlider.value)), green: CGFloat(Double(greenSlider.value)), blue: CGFloat(Double(blueSlider.value)), alpha: 1.0)

@@ -50,6 +50,9 @@
                                     <segment title="Right"/>
                                     <segment title="Wrong"/>
                                 </segments>
+                                <connections>
+                                    <action selector="colorSegment:" destination="J2o-vC-hGA" eventType="valueChanged" id="Sxu-qe-BFh"/>
+                                </connections>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="VK3-e7-ieM">
                                 <color key="tintColor" red="0.88754006409999997" green="0.0" blue="0.0083089331150000001" alpha="1" colorSpace="calibratedRGB"/>
