@@ -33,6 +33,7 @@ class GesturesViewController: UIViewController {
     
     @IBOutlet weak var actionToPerformLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+	@IBOutlet weak var winLabel: UILabel!
     
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
@@ -45,6 +46,7 @@ class GesturesViewController: UIViewController {
 
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
+		self.winLabel.text = ""
     }
 
     // MARK: - Utility
@@ -52,14 +54,15 @@ class GesturesViewController: UIViewController {
     func updateLabel(for actionGes: ActionGesture) {
         var updateText: String = ""
         switch actionGes {
-        case .tap: updateText = "tap"
-        case .doubleTap: updateText = "double tap"
-        case .twoFingerTap: updateText = "two finger tap"
-        case .leftSwipe: updateText = "swipe left"
-        case .rightSwipe: updateText = "swipe right"
+        case .tap: updateText = "Tap Once"
+        case .doubleTap: updateText = "Double Tap"
+        case .twoFingerTap: updateText = "Two-Finger Tap"
+        case .leftSwipe: updateText = "Swipe Left"
+        case .rightSwipe: updateText = "Swipe Right"
         }
         
         self.actionToPerformLabel.text = updateText
+		self.winLabel.text = ""
     }
     
     // a way to randomly get a gesture
@@ -148,7 +151,7 @@ class GesturesViewController: UIViewController {
 			} else {
 				self.currentScore += 1
 				if currentScore >= winCount {
-					self.scoreLabel.text = "You Win"
+					self.winLabel.text = "You Win! Now, "
 					self.currentScore = 0
 				}
 			}

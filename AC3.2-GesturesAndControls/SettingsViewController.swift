@@ -11,7 +11,7 @@ import UIKit
 class SettingsViewController: UIViewController {
 	var correctColor = UIColor.green
 	var wrongColor = UIColor.red
-	var currectColor = UIColor.white
+	var colorChoice = UIColor.white
 	var winCount = 0
 	
 	@IBOutlet weak var rightWrongColors: UISegmentedControl!
@@ -20,7 +20,8 @@ class SettingsViewController: UIViewController {
 	@IBOutlet weak var greenSlider: UISlider!
 	@IBOutlet weak var blueSlider: UISlider!
 	
-	@IBOutlet weak var colorPreview: UIView!
+	@IBOutlet weak var colorPreviewCorrect: UIView!
+	@IBOutlet weak var colorPreviewWrong: UIView!
 	
 	@IBOutlet weak var resetSwitch: UISwitch!
 	@IBOutlet weak var resetLabel: UILabel!
@@ -31,7 +32,8 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		// Do any additional setup after loading the view.
-		colorPreview.backgroundColor = currectColor
+		colorPreviewCorrect.backgroundColor = UIColor.green
+		colorPreviewWrong.backgroundColor = UIColor.red
 	}
 
     override func didReceiveMemoryWarning() {
@@ -45,7 +47,8 @@ class SettingsViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let gvc = segue.destination as? GesturesViewController {
-            gvc.correctColor = correctColor
+			// If user doesn't set custom colors, initial values will be used
+			gvc.correctColor = correctColor
 			gvc.wrongColor = wrongColor
 			gvc.reset = resetSwitch.isOn
 			gvc.winCount = winCount
@@ -62,13 +65,14 @@ class SettingsViewController: UIViewController {
 	var rightWrongPicked = true
 	
 	@IBAction func colorChange(_ sender: UISlider) {
-		currectColor = UIColor(red: CGFloat(Double(redSlider.value)), green: CGFloat(Double(greenSlider.value)), blue: CGFloat(Double(blueSlider.value)), alpha: 1.0)
-		colorPreview.backgroundColor = currectColor
+		colorChoice = UIColor(red: CGFloat(Double(redSlider.value)), green: CGFloat(Double(greenSlider.value)), blue: CGFloat(Double(blueSlider.value)), alpha: 1.0)
 		
 		if rightWrongColors.selectedSegmentIndex == 0 {
-			correctColor = currectColor
+			correctColor = colorChoice
+			colorPreviewCorrect.backgroundColor = colorChoice
 		} else {
-			wrongColor = currectColor
+			wrongColor = colorChoice
+			colorPreviewWrong.backgroundColor = colorChoice
 		}
 	}
 	
