@@ -66,7 +66,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction private func colorChanged(_ sender: UISlider) {
-        currentColor = UIColor(red: CGFloat(Double(redColorSlider.value)), green: CGFloat(Double(greenColorSlider.value)), blue: CGFloat(Double(blueColorSlider.value)), alpha: 1.0)
+        currentColor = UIColor(red: CGFloat(redColorSlider.value), green: CGFloat(greenColorSlider.value), blue: CGFloat(blueColorSlider.value), alpha: 1.0)
         colorPreview.backgroundColor = currentColor
         
         if rightWrongSegmentControl.selectedSegmentIndex == 0 {
