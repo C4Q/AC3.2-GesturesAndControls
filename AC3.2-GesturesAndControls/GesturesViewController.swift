@@ -13,7 +13,6 @@ class GesturesViewController: UIViewController {
 	var wrongColor = UIColor.red
 	var reset = true
 	var winCount = 0
-
 	
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
@@ -30,10 +29,11 @@ class GesturesViewController: UIViewController {
             self.scoreLabel.text = "Score: \(newValue)"
         }
     }
-    
+	
     @IBOutlet weak var actionToPerformLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
 	@IBOutlet weak var winLabel: UILabel!
+	@IBOutlet weak var winLabelLine: UILabel!
     
     @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
     @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
@@ -47,6 +47,7 @@ class GesturesViewController: UIViewController {
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
 		self.winLabel.text = ""
+		self.winLabelLine.text = ""
     }
 
     // MARK: - Utility
@@ -63,6 +64,7 @@ class GesturesViewController: UIViewController {
         
         self.actionToPerformLabel.text = updateText
 		self.winLabel.text = ""
+		self.winLabelLine.text = ""
     }
     
     // a way to randomly get a gesture
@@ -152,6 +154,7 @@ class GesturesViewController: UIViewController {
 				self.currentScore += 1
 				if currentScore >= winCount {
 					self.winLabel.text = "You Win! Now, "
+					self.winLabelLine.text = "To Play Again!"
 					self.currentScore = 0
 				}
 			}
