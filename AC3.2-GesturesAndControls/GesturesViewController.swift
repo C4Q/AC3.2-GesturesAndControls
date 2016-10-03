@@ -9,11 +9,28 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
+    var correctRedValue = 7.0
+    var correctGreenValue = 2.0
+    var correctBlueValue = 3.0
+    
+    var incorrectRedValue = 256.0
+    var incorrectGreenValue = 15.0
+    var incorrectBlueValue = 15.0
+    
+    var numOfTriesToWin = 0
+    
+    enum ResetPicker {
+        case reset
+        case noReset
+    }
+    
+    var shouldReset: ResetPicker = .reset
     
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
     }
+    
+    
     
     var currentActionGesture = ActionGesture.tap {
         willSet {
@@ -35,6 +52,8 @@ class GesturesViewController: UIViewController {
     @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var doubleTapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet var twoFingerTapGestureRecognizer: UITapGestureRecognizer!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,16 +156,26 @@ class GesturesViewController: UIViewController {
         
         if correct {
             // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
+//            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
+            
+             self.view.backgroundColor = UIColor(red: CGFloat(self.correctRedValue), green: CGFloat(self.correctGreenValue), blue: CGFloat(self.correctBlueValue), alpha: 1.0)
             
             // alternatively we can change the hue using this initializer of UIColor
             // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
 
             self.currentScore += 1
+            
+            if currentScore == numOfTriesToWin {
+                actionToPerformLabel.text = "You win! let's start over."
+                currentScore = 0
+            }
         }
         else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
+            self.view.backgroundColor = UIColor(red: CGFloat(self.incorrectRedValue), green: CGFloat(self.incorrectGreenValue), blue: CGFloat(self.incorrectBlueValue), alpha: 1.0)
+            
+            if shouldReset == .reset {
+                self.currentScore = 0 
+            }
         }
     }
 }
