@@ -9,137 +9,138 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColor = UIColor.green
+	var correctColor = UIColor.green
 	var wrongColor = UIColor.red
 	var reset = true
-	var winCount = 0
+	var winCount = Int()
 	
-    enum ActionGesture: Int {
-        case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
-    }
-    
-    var currentActionGesture = ActionGesture.tap {
-        willSet {
-            self.updateLabel(for: newValue)
-        }
-    }
-    
-    var currentScore: Int = 0 {
-        willSet {
-            self.scoreLabel.text = "Score: \(newValue)"
-        }
-    }
+	enum ActionGesture: Int {
+		case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
+	}
 	
-    @IBOutlet weak var actionToPerformLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
+	var currentActionGesture = ActionGesture.tap {
+		willSet {
+			self.updateLabel(for: newValue)
+		}
+	}
+	
+	var currentScore: Int = 0 {
+		willSet {
+			self.scoreLabel.text = "Score: \(newValue)"
+		}
+	}
+	
+	@IBOutlet weak var actionToPerformLabel: UILabel!
+	@IBOutlet weak var scoreLabel: UILabel!
 	@IBOutlet weak var winLabel: UILabel!
 	@IBOutlet weak var winLabelLine: UILabel!
-    
-    @IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
-    @IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
-    @IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
-    @IBOutlet var doubleTapGestureRecognizer: UITapGestureRecognizer!
-    @IBOutlet var twoFingerTapGestureRecognizer: UITapGestureRecognizer!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
-        self.currentActionGesture = self.pickRandomActionGesture()
+	
+	@IBOutlet var rightSwipeGestureRecognizer: UISwipeGestureRecognizer!
+	@IBOutlet var leftSwipeGestureRecognizer: UISwipeGestureRecognizer!
+	@IBOutlet var tapGestureRecognizer: UITapGestureRecognizer!
+	@IBOutlet var doubleTapGestureRecognizer: UITapGestureRecognizer!
+	@IBOutlet var twoFingerTapGestureRecognizer: UITapGestureRecognizer!
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
+		self.currentActionGesture = self.pickRandomActionGesture()
 		self.winLabel.text = ""
 		self.winLabelLine.text = ""
-    }
-
-    // MARK: - Utility
-    // update our label for each gesture
-    func updateLabel(for actionGes: ActionGesture) {
-        var updateText: String = ""
-        switch actionGes {
-        case .tap: updateText = "Tap Once"
-        case .doubleTap: updateText = "Double Tap"
-        case .twoFingerTap: updateText = "Two-Finger Tap"
-        case .leftSwipe: updateText = "Swipe Left"
-        case .rightSwipe: updateText = "Swipe Right"
-        }
-        
-        self.actionToPerformLabel.text = updateText
+		self.scoreLabel.text = "Score: 0"
+	}
+	
+	// MARK: - Utility
+	// update our label for each gesture
+	func updateLabel(for actionGes: ActionGesture) {
+		var updateText: String = ""
+		switch actionGes {
+		case .tap: updateText = "Tap Once"
+		case .doubleTap: updateText = "Double Tap"
+		case .twoFingerTap: updateText = "Two-Finger Tap"
+		case .leftSwipe: updateText = "Swipe Left"
+		case .rightSwipe: updateText = "Swipe Right"
+		}
+		
+		self.actionToPerformLabel.text = updateText
 		self.winLabel.text = ""
 		self.winLabelLine.text = ""
-    }
-    
-    // a way to randomly get a gesture
-    func pickRandomActionGesture() -> ActionGesture {
-        let randomInt = Int(arc4random_uniform(5)) // number between 0-4
-        return ActionGesture(rawValue: randomInt) ?? .tap
-    }
-    
-    // MARK: - Actions
-//    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
-//        print("I was tapped")
-//        self.isCorrect(self.currentActionGesture == .tap)
-//    }
-//    
-//    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped left")
-//        self.isCorrect(self.currentActionGesture == .leftSwipe)
-//    }
-//    
-//    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
-//        print("Swiped right")
-//        self.isCorrect(self.currentActionGesture == .rightSwipe)
-//    }
-//    
-//    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did double tap view")
-//        self.isCorrect(self.currentActionGesture == .doubleTap)
-//    }
-//    
-//    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
-//        print("Did two finger tap view")
-//        self.isCorrect(self.currentActionGesture == .twoFingerTap)
-//    }
-    
-    @IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
-        if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
-            switch (tapGesture.numberOfTapsRequired, tapGesture.numberOfTouchesRequired) {
-                
-            case (1, 1):
-                print("Heck yea I was tapped")
-                self.isCorrect(self.currentActionGesture == .tap)
-                
-            case (2, 1):
-                print("double tap!")
-                self.isCorrect(self.currentActionGesture == .doubleTap)
-                
-            case (1, 2):
-                print("two finger tap!")
-                self.isCorrect(self.currentActionGesture == .twoFingerTap)
-                
-            default:
-                print("tap type was wrong!")
-                self.isCorrect(false)
-            }
-        }
-    
-        if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
-            
-            switch swipeGesture.direction {
-                
-            case UISwipeGestureRecognizerDirection.left:
-                print("did swipe left")
-                self.isCorrect(self.currentActionGesture == .leftSwipe)
-                
-            case UISwipeGestureRecognizerDirection.right:
-                print("did swipe right")
-                self.isCorrect(self.currentActionGesture == .rightSwipe)
-                
-            default:
-                print("was not left/right")
-                self.isCorrect(false)
-            }
-        }
-    }
-    
+	}
+	
+	// a way to randomly get a gesture
+	func pickRandomActionGesture() -> ActionGesture {
+		let randomInt = Int(arc4random_uniform(5)) // number between 0-4
+		return ActionGesture(rawValue: randomInt) ?? .tap
+	}
+	
+	// MARK: - Actions
+	//    @IBAction func didTapView(_ sender: UITapGestureRecognizer) {
+	//        print("I was tapped")
+	//        self.isCorrect(self.currentActionGesture == .tap)
+	//    }
+	//
+	//    @IBAction func swipedLeft(_ sender: UISwipeGestureRecognizer) {
+	//        print("Swiped left")
+	//        self.isCorrect(self.currentActionGesture == .leftSwipe)
+	//    }
+	//
+	//    @IBAction func swipedRight(_ sender: UISwipeGestureRecognizer) {
+	//        print("Swiped right")
+	//        self.isCorrect(self.currentActionGesture == .rightSwipe)
+	//    }
+	//
+	//    @IBAction func didDoubleTapView(_ sender: UITapGestureRecognizer) {
+	//        print("Did double tap view")
+	//        self.isCorrect(self.currentActionGesture == .doubleTap)
+	//    }
+	//
+	//    @IBAction func didTwoFingerTapView(_ sender: UITapGestureRecognizer) {
+	//        print("Did two finger tap view")
+	//        self.isCorrect(self.currentActionGesture == .twoFingerTap)
+	//    }
+	
+	@IBAction func didPerformGesture(_ sender: UIGestureRecognizer) {
+		if let tapGesture: UITapGestureRecognizer = sender as? UITapGestureRecognizer {
+			switch (tapGesture.numberOfTapsRequired, tapGesture.numberOfTouchesRequired) {
+				
+			case (1, 1):
+				print("Heck yea I was tapped")
+				self.isCorrect(self.currentActionGesture == .tap)
+				
+			case (2, 1):
+				print("double tap!")
+				self.isCorrect(self.currentActionGesture == .doubleTap)
+				
+			case (1, 2):
+				print("two finger tap!")
+				self.isCorrect(self.currentActionGesture == .twoFingerTap)
+				
+			default:
+				print("tap type was wrong!")
+				self.isCorrect(false)
+			}
+		}
+		
+		if let swipeGesture: UISwipeGestureRecognizer = sender as? UISwipeGestureRecognizer {
+			
+			switch swipeGesture.direction {
+				
+			case UISwipeGestureRecognizerDirection.left:
+				print("did swipe left")
+				self.isCorrect(self.currentActionGesture == .leftSwipe)
+				
+			case UISwipeGestureRecognizerDirection.right:
+				print("did swipe right")
+				self.isCorrect(self.currentActionGesture == .rightSwipe)
+				
+			default:
+				print("was not left/right")
+				self.isCorrect(false)
+			}
+		}
+	}
+	
 	func isCorrect(_ correct: Bool) {
 		self.currentActionGesture = pickRandomActionGesture()
 		

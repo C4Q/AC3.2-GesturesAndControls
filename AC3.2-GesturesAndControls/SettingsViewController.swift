@@ -12,7 +12,7 @@ class SettingsViewController: UIViewController {
 	var correctColor = UIColor.green
 	var wrongColor = UIColor.red
 	var colorChoice = UIColor.white
-	var winCount = 0
+	var winCount = Int()
 	
 	@IBOutlet weak var rightWrongColors: UISegmentedControl!
 	
@@ -42,7 +42,6 @@ class SettingsViewController: UIViewController {
 	}
 	
 	// MARK: - Navigation
-	
 	// In a storyboard-based application, you will often want to do a little preparation before navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let gvc = segue.destination as? GesturesViewController {
@@ -62,7 +61,6 @@ class SettingsViewController: UIViewController {
 	var wrongGreenSlider:CGFloat = 0.0
 	var wrongBlueSlider:CGFloat = 0.0
 	var alpha:CGFloat = 0.0
-	var rightWrongPicked = true
 	
 	@IBAction func colorSegment(_ sender: UISegmentedControl) {
 		if sender.selectedSegmentIndex == 0 {
