@@ -10,6 +10,9 @@ import UIKit
 
 class GesturesViewController: UIViewController {
     var correctColorValue = 0.0
+    var correctColorValue2 = 0.0
+    var correctColorValue3 = 0.0
+    var gameSwitch = true
     
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
@@ -20,7 +23,8 @@ class GesturesViewController: UIViewController {
             self.updateLabel(for: newValue)
         }
     }
-    
+    var scoreToWin = 0.0
+    var resetScore = 0
     var currentScore: Int = 0 {
         willSet {
             self.scoreLabel.text = "Score: \(newValue)"
@@ -134,19 +138,25 @@ class GesturesViewController: UIViewController {
     
     func isCorrect(_ correct: Bool) {
         self.currentActionGesture = pickRandomActionGesture()
-        
+       if gameSwitch {
         if correct {
             // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
+            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: CGFloat(self.correctColorValue2), blue: CGFloat(self.correctColorValue3), alpha: 1.0)
+                print(scoreToWin)
             
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
+            self.currentScore += 1
+            if scoreToWin == Double(self.currentScore) {
+                self.currentScore = resetScore
+           }
+           } else {
+            self.view.backgroundColor = UIColor.red
+            self.currentScore = resetScore
+        }
+       }  else {
+        if correct {
+        self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: CGFloat(self.correctColorValue2), blue: CGFloat(self.correctColorValue3), alpha: 1.0)
             self.currentScore += 1
         }
-        else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
         }
     }
 }
