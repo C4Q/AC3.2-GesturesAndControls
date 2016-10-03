@@ -9,8 +9,12 @@
 import UIKit
 
 class GesturesViewController: UIViewController {
-    var correctColorValue = 0.0
-    
+    var correctColor = UIColor.green
+	var wrongColor = UIColor.red
+	var reset = true
+	var winCount = 0
+
+	
     enum ActionGesture: Int {
         case tap, doubleTap, twoFingerTap, leftSwipe, rightSwipe
     }
@@ -41,7 +45,6 @@ class GesturesViewController: UIViewController {
 
         tapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
         self.currentActionGesture = self.pickRandomActionGesture()
-
     }
 
     // MARK: - Utility
@@ -132,21 +135,28 @@ class GesturesViewController: UIViewController {
         }
     }
     
-    func isCorrect(_ correct: Bool) {
-        self.currentActionGesture = pickRandomActionGesture()
-        
-        if correct {
-            // use the "correctColorValue" to manipulate the red component of a color
-            self.view.backgroundColor = UIColor(red: CGFloat(self.correctColorValue), green: 1.0, blue: 1.0, alpha: 1.0)
-            
-            // alternatively we can change the hue using this initializer of UIColor
-            // self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
-
-            self.currentScore += 1
-        }
-        else {
-            self.view.backgroundColor = UIColor.red
-            self.currentScore = 0
-        }
-    }
+	func isCorrect(_ correct: Bool) {
+		self.currentActionGesture = pickRandomActionGesture()
+		
+		if correct {
+			// use the "correctColorValue" to manipulate the RGB component of a color
+			self.view.backgroundColor = correctColor
+			// alternatively we can change the hue using this initializer of UIColor
+			// self.view.backgroundColor = UIColor(hue: CGFloat(Float(self.correctColorValue)), saturation: 1.0, brightness: 1.0, alpha: 1.0)
+			if winCount == 0 {
+				self.currentScore += 1
+			} else {
+				self.currentScore += 1
+				if currentScore >= winCount {
+					self.scoreLabel.text = "You Win"
+					self.currentScore = 0
+				}
+			}
+		} else {
+			self.view.backgroundColor = wrongColor
+			if reset {
+				self.currentScore = 0
+			}
+		}
+	}
 }

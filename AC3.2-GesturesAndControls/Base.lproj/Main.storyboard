@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="l5U-51-TFZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="l5U-51-TFZ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -29,36 +29,116 @@
                         <viewControllerLayoutGuide type="bottom" id="pSF-sI-wKO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sg5-M7-GFO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tbd-3B-6hV">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="rXr-6q-JHP"/>
-                                </constraints>
                                 <state key="normal" title="Save"/>
                                 <connections>
                                     <segue destination="ogV-KT-dEg" kind="showDetail" id="EOd-KY-yXj"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bRS-eF-hra"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UaO-m3-TYX">
+                                <frame key="frameInset" minX="222" minY="-70" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="82N-wF-z84">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="ZX8-th-BC2"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Right"/>
+                                    <segment title="Wrong"/>
+                                </segments>
+                            </segmentedControl>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="VK3-e7-ieM">
+                                <color key="tintColor" red="0.88754006409999997" green="0.0" blue="0.0083089331150000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="colorChange:" destination="J2o-vC-hGA" eventType="valueChanged" id="uHk-4S-rEf"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="X2C-JZ-ui3">
+                                <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="colorChange:" destination="J2o-vC-hGA" eventType="valueChanged" id="zWj-Og-idi"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rqt-K9-jB5">
+                                <connections>
+                                    <action selector="colorChange:" destination="J2o-vC-hGA" eventType="valueChanged" id="nay-kh-uO4"/>
+                                </connections>
+                            </slider>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eXR-SZ-eCr">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="lCq-tP-Mhf"/>
+                                </constraints>
+                            </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pCH-9z-LHS">
+                                <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="resetSwitchOption:" destination="J2o-vC-hGA" eventType="valueChanged" id="kRV-gs-28f"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset When Wrong: Off" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ACG-jV-OvL">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="LoO-4g-fpV">
+                                <connections>
+                                    <action selector="winCountOption:" destination="J2o-vC-hGA" eventType="valueChanged" id="Tps-Mr-PfS"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points Until Victory: Endless Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FA-Kj-wGd">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.8518490621375493" blue="0.93824774966654123" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="bRS-eF-hra" firstAttribute="centerX" secondItem="Tbd-3B-6hV" secondAttribute="centerX" id="0Ij-76-7ga"/>
-                            <constraint firstItem="bRS-eF-hra" firstAttribute="trailing" secondItem="sg5-M7-GFO" secondAttribute="trailingMargin" id="EDE-Co-nFD"/>
-                            <constraint firstAttribute="bottom" secondItem="Tbd-3B-6hV" secondAttribute="bottom" constant="20" symbolic="YES" id="Rqb-ai-bf7"/>
-                            <constraint firstItem="bRS-eF-hra" firstAttribute="leading" secondItem="sg5-M7-GFO" secondAttribute="leadingMargin" id="RwN-cp-DAw"/>
-                            <constraint firstItem="bRS-eF-hra" firstAttribute="top" secondItem="tIF-Oo-dAZ" secondAttribute="bottom" constant="8" symbolic="YES" id="hMh-M7-Mzv"/>
+                            <constraint firstItem="LoO-4g-fpV" firstAttribute="centerX" secondItem="sg5-M7-GFO" secondAttribute="centerX" id="6TH-yE-pm3"/>
+                            <constraint firstItem="pSF-sI-wKO" firstAttribute="top" secondItem="Tbd-3B-6hV" secondAttribute="bottom" constant="16" id="BH5-WF-jyo"/>
+                            <constraint firstItem="ACG-jV-OvL" firstAttribute="centerX" secondItem="pCH-9z-LHS" secondAttribute="centerX" id="D1j-NZ-JL3"/>
+                            <constraint firstItem="6FA-Kj-wGd" firstAttribute="top" secondItem="LoO-4g-fpV" secondAttribute="bottom" constant="8" id="HRa-aL-H2G"/>
+                            <constraint firstItem="Rqt-K9-jB5" firstAttribute="top" secondItem="X2C-JZ-ui3" secondAttribute="bottom" constant="16" id="Ku5-He-Wxl"/>
+                            <constraint firstItem="eXR-SZ-eCr" firstAttribute="leading" secondItem="sg5-M7-GFO" secondAttribute="leadingMargin" constant="16" id="MH9-DB-B8X"/>
+                            <constraint firstItem="X2C-JZ-ui3" firstAttribute="trailing" secondItem="sg5-M7-GFO" secondAttribute="trailingMargin" id="NXE-EK-btf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VK3-e7-ieM" secondAttribute="trailing" id="Nwi-sA-4Uc"/>
+                            <constraint firstItem="6FA-Kj-wGd" firstAttribute="centerX" secondItem="LoO-4g-fpV" secondAttribute="centerX" id="QQP-1a-oKK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rqt-K9-jB5" secondAttribute="trailing" id="TIB-is-jak"/>
+                            <constraint firstItem="X2C-JZ-ui3" firstAttribute="leading" secondItem="sg5-M7-GFO" secondAttribute="leadingMargin" id="VVL-Eg-hfS"/>
+                            <constraint firstItem="VK3-e7-ieM" firstAttribute="top" secondItem="82N-wF-z84" secondAttribute="bottom" constant="16" id="XsN-B1-88c"/>
+                            <constraint firstItem="82N-wF-z84" firstAttribute="centerX" secondItem="sg5-M7-GFO" secondAttribute="centerX" id="YK4-ka-haM"/>
+                            <constraint firstItem="X2C-JZ-ui3" firstAttribute="top" secondItem="VK3-e7-ieM" secondAttribute="bottom" constant="16" id="avN-yp-f6i"/>
+                            <constraint firstItem="Rqt-K9-jB5" firstAttribute="leading" secondItem="sg5-M7-GFO" secondAttribute="leadingMargin" id="bAx-hr-zjv"/>
+                            <constraint firstItem="eXR-SZ-eCr" firstAttribute="top" secondItem="Rqt-K9-jB5" secondAttribute="bottom" constant="32" id="bXc-NI-Y9t"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eXR-SZ-eCr" secondAttribute="trailing" constant="16" id="cQB-uJ-SSX"/>
+                            <constraint firstItem="VK3-e7-ieM" firstAttribute="leading" secondItem="sg5-M7-GFO" secondAttribute="leadingMargin" id="hLF-Jl-Oq6"/>
+                            <constraint firstItem="ACG-jV-OvL" firstAttribute="top" secondItem="pCH-9z-LHS" secondAttribute="bottom" constant="8" id="iFc-li-dPs"/>
+                            <constraint firstItem="LoO-4g-fpV" firstAttribute="top" secondItem="ACG-jV-OvL" secondAttribute="bottom" constant="32" id="l26-4I-i7K"/>
+                            <constraint firstItem="Tbd-3B-6hV" firstAttribute="centerX" secondItem="sg5-M7-GFO" secondAttribute="centerX" id="mLB-MV-WQK"/>
+                            <constraint firstItem="pCH-9z-LHS" firstAttribute="centerX" secondItem="sg5-M7-GFO" secondAttribute="centerX" id="pSz-91-dWh"/>
+                            <constraint firstItem="82N-wF-z84" firstAttribute="top" secondItem="tIF-Oo-dAZ" secondAttribute="bottom" constant="8" id="sgq-Bo-3VJ"/>
+                            <constraint firstItem="pCH-9z-LHS" firstAttribute="top" secondItem="eXR-SZ-eCr" secondAttribute="bottom" constant="32" id="zdj-FC-IDi"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="colorSlider" destination="bRS-eF-hra" id="YJV-a1-guJ"/>
+                        <outlet property="blueSlider" destination="Rqt-K9-jB5" id="64J-Fd-xiP"/>
+                        <outlet property="colorPreview" destination="eXR-SZ-eCr" id="OHO-VV-kAG"/>
+                        <outlet property="greenSlider" destination="X2C-JZ-ui3" id="rCA-1Q-aQi"/>
+                        <outlet property="redSlider" destination="VK3-e7-ieM" id="hOw-Qx-QAn"/>
+                        <outlet property="resetLabel" destination="ACG-jV-OvL" id="Q0w-Jt-Jyi"/>
+                        <outlet property="resetSwitch" destination="pCH-9z-LHS" id="A7Y-OH-Hhq"/>
+                        <outlet property="rightWrongColors" destination="82N-wF-z84" id="ffN-8d-fDp"/>
+                        <outlet property="winCountLabel" destination="6FA-Kj-wGd" id="5V3-Ko-r4M"/>
+                        <outlet property="winCountStepper" destination="LoO-4g-fpV" id="W3E-wc-gBV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KDL-y3-bUO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="123.63281249999999" y="-586.71875"/>
+            <point key="canvasLocation" x="122.40000000000001" y="-586.95652173913049"/>
         </scene>
         <!--Gestures View Controller-->
         <scene sceneID="e9d-85-ClC">
@@ -69,7 +149,7 @@
                         <viewControllerLayoutGuide type="bottom" id="1PH-j8-o3Z"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="h3p-1U-ioM">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piS-iC-l1d" userLabel="Prompt">
