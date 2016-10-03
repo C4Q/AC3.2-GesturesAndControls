@@ -55,9 +55,9 @@ class SettingsViewController: UIViewController {
 	
 	// MARK: Color Stuff
 	var correctRedSlider:CGFloat = 0.0
-	var correctGreenSlider:CGFloat = 1.0
+	var correctGreenSlider:CGFloat = 0.0
 	var correctBlueSlider:CGFloat = 0.0
-	var wrongRedSlider:CGFloat = 1.0
+	var wrongRedSlider:CGFloat = 0.0
 	var wrongGreenSlider:CGFloat = 0.0
 	var wrongBlueSlider:CGFloat = 0.0
 	var alpha:CGFloat = 0.0
