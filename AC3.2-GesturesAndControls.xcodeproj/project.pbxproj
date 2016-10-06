@@ -307,6 +307,7 @@
 				1E6AA2EA1D9D8F1A0056CFDA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
